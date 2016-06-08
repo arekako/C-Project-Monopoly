@@ -63,42 +63,42 @@ namespace Monopoly_new
             this.Pola.Add(new Card(1, "Syria", 250, false, "brak", 30, tablica_oplat1, 0));
             this.Pola.Add(new Card(2, "Portugalia", 250, false, "brak", 35, tablica_oplat2, 0));
             this.Pola.Add(new Card(3, "Wlochy", 270, false, "brak", 40, tablica_oplat3, 0));
-            this.Pola.Add(new SpecialCard(4, "Szansa 1", "Wygrales na loterii", 100));
+            this.Pola.Add(new SpecialCard(4, "Szansa 1", "Wygrales na loterii", 100));//100
             this.Pola.Add(new Card(5, "Szkocja", 280, false, "brak", 40, tablica_oplat5, 0));
             this.Pola.Add(new Card(6, "Anglia", 300, false, "brak", 50, tablica_oplat6, 0));
             this.Pola.Add(new Card(7, "Polska", 310, false, "brak", 55, tablica_oplat7, 0));
             this.Pola.Add(new Card(8, "Turcja", 330, false, "brak", 55, tablica_oplat8, 0));
-            this.Pola.Add(new SpecialCard(9, "Ryzyko 1", "Placisz podatek za świeże powietrze", -100));
+            this.Pola.Add(new SpecialCard(9, "Ryzyko 1", "Placisz podatek za świeże powietrze",-100));//-100
             this.Pola.Add(new Card(10, "Ukraina", 380, false, "brak", 60, tablica_oplat10, 0));
 
             this.Pola.Add(new Card(11, "Brazylia", 380, false, "brak", 60, tablica_oplat11, 0));
-            this.Pola.Add(new SpecialCard(12, "Szansa 2", "Wygrales na loterii", 150));
+            this.Pola.Add(new SpecialCard(12, "Szansa 2", "Wygrales na loterii", 150));//150
             this.Pola.Add(new Card(13, "Urugwaj", 390, false, "brak", 65, tablica_oplat13, 0));
             this.Pola.Add(new Card(14, "Paragwaj", 400, false, "brak", 70, tablica_oplat14, 0));
             this.Pola.Add(new Card(15, "Boliwia", 400, false, "brak", 70, tablica_oplat15, 0));
             this.Pola.Add(new Card(16, "Chile", 400, false, "brak", 80, tablica_oplat16, 0));
-            this.Pola.Add(new SpecialCard(17, "Ryzyko 2", "Przegrałes w karty", -150));
+            this.Pola.Add(new SpecialCard(17, "Ryzyko 2", "Przegrałes w karty", -150));//-150
             this.Pola.Add(new Card(18, "Wenezuela", 430, false, "brak", 85, tablica_oplat18, 0));
             this.Pola.Add(new Card(19, "Belize", 450, false, "brak", 90, tablica_oplat19, 0));
             this.Pola.Add(new Card(20, "Trynidad i Tobago", 480, false, "brak", 90, tablica_oplat20, 0));
 
             this.Pola.Add(new Card(21, "Chiny", 490, false, "brak", 95, tablica_oplat21, 0));
             this.Pola.Add(new Card(22, "Japonia", 490, false, "brak", 95, tablica_oplat22, 0));
-            this.Pola.Add(new SpecialCard(23, "Szansa 3", "Wygrales na loterii", 250));
+            this.Pola.Add(new SpecialCard(23, "Szansa 3", "Wygrales na loterii", 250));//250
             this.Pola.Add(new Card(24, "Katar", 500, false, "brak", 90, tablica_oplat24, 0));
             this.Pola.Add(new Card(25, "Indie", 510, false, "brak", 90, tablica_oplat25, 0));
             this.Pola.Add(new Card(26, "Indonezja", 520, false, "brak", 110, tablica_oplat26, 0));
             this.Pola.Add(new Card(27, "Korea", 510, false, "brak", 100, tablica_oplat27, 0));
-            this.Pola.Add(new SpecialCard(28, "Ryzyko 3", "Przegrałeś na loterii",-200));
+            this.Pola.Add(new SpecialCard(28, "Ryzyko 3", "Przegrałeś na loterii",-200));//-200
             this.Pola.Add(new Card(29, "Kirgistan", 550, false, "brak", 90, tablica_oplat29, 0));
             this.Pola.Add(new Card(30, "Malezja", 540, false, "brak", 90, tablica_oplat30, 0));
 
             this.Pola.Add(new Card(31, "Irak", 550, false, "brak", 95, tablica_oplat31, 0));
-            this.Pola.Add(new SpecialCard(32, "Szansa 4", "Wygrales na loterii", 300));
+            this.Pola.Add(new SpecialCard(32, "Szansa 4", "Wygrales na loterii", 300));//300
             this.Pola.Add(new Card(33, "Egipt", 570, false, "brak", 90, tablica_oplat33, 0));
             this.Pola.Add(new Card(34, "Tunezja", 580, false, "brak", 90, tablica_oplat34, 0));
             this.Pola.Add(new Card(35, "RPA", 580, false, "brak", 90, tablica_oplat35, 0));
-            this.Pola.Add(new SpecialCard(36, "Ryzyko 4", "Wygrales na loterii", -250));
+            this.Pola.Add(new SpecialCard(36, "Ryzyko 4", "Wygrales na loterii", -250));//-250
             this.Pola.Add(new Card(37, "Senegal", 610, false, "brak", 95, tablica_oplat37, 0));
             this.Pola.Add(new Card(38, "Nigeria", 630, false, "brak", 105, tablica_oplat38, 0));
             this.Pola.Add(new Card(39, "Laos", 650, false, "brak", 120, tablica_oplat39, 0));

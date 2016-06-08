@@ -38,10 +38,38 @@ namespace Monopoly_new
         }
         public override void IlustradeTheCard()
         {
+            if (this.Id == 4 || this.Id == 12 || this.Id == 23 || this.Id == 32)
+            {
+                RandomValue(1);
+            }
+            else
+            {
+                RandomValue(-1);
+            }
             Console.WriteLine("┌-----------------------------------------------------┐");
             Console.WriteLine("│\t\t {0}.  {1}", this.Id, this.Name.ToUpper());
             Console.WriteLine("│\t {0}.  {1}", this.Descript, this.DoSomething);
             Console.WriteLine("└-----------------------------------------------------┘");
+        }
+        public void RandomValue(int a)
+        {
+            int[] positive = new int[6] { 100, 150, 200, 250, 300, 400 };
+            int[] negative = new int[6] { -100, -150, -200, -250, -300, -400 };
+            int value = 1000;
+            int retvalue = 0;
+            switch (a)
+            {
+                case 1:
+                    value = new Random().Next(0, 6);
+                    retvalue = positive[value];
+                    this.DoSomething = retvalue;
+                    break;
+                case -1:
+                    value = new Random().Next(0, 6);
+                    retvalue = negative[value];
+                    this.DoSomething = retvalue;
+                    break;
+            }
         }
     }
 }
