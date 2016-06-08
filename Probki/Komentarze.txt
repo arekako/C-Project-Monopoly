@@ -1,0 +1,48 @@
+﻿Z pliku Rozrywka.cs
+
+/////////////////////////////////////////////////////
+            //int[] tabl = { 95, 250, 500, 900, 1250 };
+            //Pole jakiespole = new Pole(21, "Chiny", 490, false, "brak", 95, tabl, 0);
+            //PoleSpecjalne jakiespolespecjalne = new PoleSpecjalne(22, "Szansa", "Wygrales na loterii", 100);
+            //MonopolyField costam = new Pole(21, "Chiny", 490, false, "brak", 95, tabl, 0);
+            //MonopolyField costam2 = new PoleSpecjalne(22, "Szansa", "Wygrales na loterii", 100);
+
+            //Console.WriteLine("Pole jekiespole typ {0}", jakiespole.Typ());
+            //Console.WriteLine("PoleSpecjalne jekiespolespecjalne typ {0}", jakiespolespecjalne.Typ());
+            //Console.WriteLine("MonopolyField costam typ {0}", costam.Typ());
+            //Console.WriteLine("MonopolyField costam2 typ {0}", costam2.Typ());
+
+            //jakiespole.ObrazujKarte();
+            //jakiespolespecjalne.ObrazujKarte();
+            //costam.ObrazujKarte();
+            //costam2.ObrazujKarte();//działa
+            //Console.WriteLine("Pole jakiespole Iledomkow: {0}", jakiespole.Iledomkow());
+            //Console.WriteLine("PoleSpecjalne jakiespolespecjalne Iledomkow: {0}", jakiespolespecjalne.Iledomkow());
+            //Console.WriteLine("MonopolyField costam Iledomkow : {0}", costam.Iledomkow());
+            //Console.WriteLine("MonopolyField costam2 Iledomkow : {0}", costam2.Iledomkow());
+
+            //List<MonopolyField> MojeWszystkiePola = new List<MonopolyField>();
+            //MojeWszystkiePola.Add(new Pole(21, "Chiny", 490, false, "brak", 95, tabl, 0));
+            //MojeWszystkiePola.Add(new PoleSpecjalne(22, "Szansa1", "Wygrales na loterii", 100));
+            //MojeWszystkiePola.Add(new Pole(23, "Chiny", 490, false, "brak", 95, tabl, 0));
+            //MojeWszystkiePola.Add(new PoleSpecjalne(24, "Szansa2", "Wygrales na loterii", 200));
+            //MojeWszystkiePola.Add(new Pole(25, "Chiny", 490, false, "brak", 95, tabl, 0));
+            //MojeWszystkiePola.Add(new PoleSpecjalne(26, "Szansa3", "Wygrales na loterii", 300));
+            //MojeWszystkiePola.Add(new Pole(27, "Chiny", 490, false, "brak", 95, tabl, 0));
+            //MojeWszystkiePola.Add(new PoleSpecjalne(28, "Szansa4", "Wygrales na loterii", 400));
+            //int z = 0;
+            //foreach (MonopolyField item in MojeWszystkiePola)
+            //{
+            //    if (item.Typ() == "S")
+            //    {
+            //        Console.WriteLine(item.ZrobCos);
+            //        Console.WriteLine(item.Typ());
+            //        item.ObrazujKarte();
+            //        z++;
+            //    }
+            //}
+            //Console.WriteLine(z);
+            //Console.WriteLine(MojeWszystkiePola.Count());
+            //sprawdzic funkcje co wyrzuca
+            /////////////////////////////////////////////////////////
+            //Monopoly.Instrukcja_gry();

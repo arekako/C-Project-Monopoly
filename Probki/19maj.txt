@@ -1,0 +1,324 @@
+﻿        //public int Losuj()
+        //{
+        //    int wyl = new Random().Next(1, 7);
+        //    while (wyl % 6 == 0)
+        //    {
+        //        wyl = wyl + new Random().Next(1, 7);
+        //        if (wyl > 30)
+        //        {
+        //            wyl = wyl % 10;
+        //        }
+        //    }
+        //    Console.WriteLine("\t Wylosowano:\t{0}", wyl);
+        //    Console.WriteLine("{0}", Rysuj_kostke(wyl));//
+        //    return wyl;
+        //}////////////
+
+
+
+
+
+
+		poczatek
+public void Gra()
+        {
+            int numerRundy = 1;
+            Instrukcja_gry();
+            /////////////////////////////////       TWORZENIE GRACZY      ///////////////////////////////////
+            int liczba_graczy = WprowadzLiczbeGraczy();
+            CzyscKonsole();
+            WprowadzGraczy(liczba_graczy);
+            this.UstawPlansze(liczba_graczy);//ustawia liczbę pol w zalezności od ilosci graczy
+            //////////////////////////            ROZGRYWKA WŁAŚCIWA                   //////////////////////////////////
+            while (true)
+            {
+                ///////////////////////         NAJPIERW SPRAWDZAMY CZY SĄ SPEŁNIONE WARUNKI DALSZEJ GRY       /////////
+                //gracza usuwamy poza foreachem
+                CzyJuzKoniecGry();
+                KoniecGry();
+                CzyscKonsole();
+                //Console.WriteLine(IloscGraczy());
+                Console.WriteLine("_________________Runda nr.{0}_________", numerRundy);
+                InformacjaOPlanszy();
+                foreach (Gracz gracz in this.Gracze)
+                {
+                    gracz.Infor();
+                    Console.WriteLine("{0}, kliknij Enter by losować", gracz.Name);
+                    Console.ReadLine();
+                    //Console.WriteLine("Losowanie...Poczekaj aż kostka się zatrzymie!");
+                    //System.Threading.Thread.Sleep(2000);//////dodałem to do metody z graczLosuj
+                    gracz.ZmienAktPoz(gracz.Losuj());///////////////////dopisałem
+                    System.Threading.Thread.Sleep(2000);
+                    ////////////////////////////////////////gdy wykraczamy poza zakres planszy//////////////////////////
+
+                    //if (gracz.AktualnaPozycjaNaPlanszy > this.Pola.Count())//10
+                    //{
+                    //    gracz.PrzejsciePrzezStart();//
+                    //    gracz.AktualnaPozycjaNaPlanszy = (gracz.AktualnaPozycjaNaPlanszy - this.Pola.Count()) % this.Pola.Count();
+                    //    if (gracz.AktualnaPozycjaNaPlanszy == 0)
+                    //    {
+                    //        gracz.AktualnaPozycjaNaPlanszy = 1;
+                    //    }
+                    //}
+                    //Console.WriteLine("\nAktualna pozycja na planszy :" + gracz.AktualnaPozycjaNaPlanszy);
+                    gracz.RozpocznijNastepnaKolejke(this.Pola.Count());
+
+                    ////////////////////////////////////////// Jezeli wpadamy w pole typu P i mozna je kupic/////////////////////
+                    if ((this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Czy_zajete == false) && (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "P"))//WOLNA DZIAŁKA
+                    {
+                        Console.WriteLine("\nObecnie stoisz na tym polu :");
+                        if (gracz.Kwota >= this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Koszt)//jezeli gracz ma wiecej hajsu niż koszt dzialki
+                        {
+                            //this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ObrazujKarte();
+                            //Console.WriteLine("\tCzy chcesz kupić  wolną dzialkę?");
+                            //if (this.Decyzja() == true)
+                            //{
+                            //    System.Threading.Thread.Sleep(2000);
+                            //    Console.WriteLine("\tKupiles dzialke o numerze {0}", gracz.AktualnaPozycjaNaPlanszy);
+                            //    gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Koszt);//ODEJMOWANIE
+                            //    this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ZmianaWlasciciela(gracz.Name);//PRZYPISANIE WLASCICIELA DO DZIALKI
+                            //    this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Czy_zajete = true;
+                            //    gracz.Dzialki.Add((Pole)this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1]);// PRZYPISANIE DZIALKI DO GRACZA
+                            //    this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Infor();
+                            //    Console.WriteLine("\t\tRuch kolejnego gracza\n");
+                            //}
+                            //else
+                            //{
+                            //    Console.WriteLine("\n\tNie zdecydowałeś się na kupno działki.");
+                            //    Console.WriteLine("\n\tRuch kolejnego gracza\n");
+                            //}
+                            this.ZakupPola(gracz);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\tBrak środkow na kupno działki.Graj rozważnie");
+                            Console.WriteLine("\tRuch kolejnego gracza\n");
+                        }
+                    }
+                    else if ((this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Czy_zajete == true) && (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "P"))//DZIALKA ZAJETA
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\nObecnie stoisz na tym polu :");
+                        Console.WriteLine("\t\t\tWjechales w zajętą dzialkę!");
+                        if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel == gracz.Name)//jezeli dzialka nasza to
+                        {
+                            Console.WriteLine("\t\t\tRozważ budowę domków");
+                            this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].InformacjaDlaWlascicielaODomkach();
+                            if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Iledomkow() < 5)//gdy jest mozliwosc kupna domku
+                            {
+                                Console.WriteLine("\t\t\tCzy chcesz kupić domek?");
+                                if (this.Decyzja() == true)//jezeli tak
+                                {
+                                    System.Threading.Thread.Sleep(2000);
+                                    //Console.WriteLine("\t\t\tZdecydowałeś się kupić domek!");
+                                    //sprawdzenie czy nas stac
+                                    if (gracz.Kwota >= this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].OplataZaDomek)// jezeli tak
+                                    {
+                                        Console.WriteLine("\t\t\tZdecydowaleś się na kupno domku!");
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].OplataZaDomek);//odejmowanie hajsu za domek
+                                        this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ZmienLiczbeDomkow();
+                                        Console.WriteLine("\t\t\tZmieniono liczbę domkow na {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\t\t\t\tNie stać cię na kupno domku");
+                                        Console.WriteLine("\t\t\t\tRuch kolejnego gracza");
+                                        Console.WriteLine("   ");
+                                    }
+                                }
+                                else//jezeli nie
+                                {
+                                    System.Threading.Thread.Sleep(2000);
+                                    Console.WriteLine("\t\t\tNie chcesz kupić domku");
+                                    Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                }
+                            }
+                            else
+                            {
+                                System.Threading.Thread.Sleep(1000);
+                                Console.WriteLine("\t\t\t\tTu już stoji hotel! Więcej domków nie jesteś w stanie kupić");
+                                Console.WriteLine("\t\t\t\tRuch kolejnego gracza\n");
+                            }
+                        }
+                        else
+                        {
+                            System.Threading.Thread.Sleep(2000);
+                            Console.WriteLine("\t\t\tTa dzialka ma już swojego innego wlasciciela");
+                            foreach (Gracz szukanygracz in this.Gracze)
+                            {
+                                if (szukanygracz.Name == this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel)
+                                {
+                                    if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow != 0)
+                                    {
+                                        Console.WriteLine("\t\t\t\nA jej wlascicielem jest {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel);
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        szukanygracz.ZmienKwote(-this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        Console.WriteLine("\t\t\tZaplaciłeś mu {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\t\t\tA jej wlascicielem jest {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel);
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        szukanygracz.ZmienKwote(-this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        Console.WriteLine("\t\t\tZaplaciłeś mu {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "S")
+                    {
+                        this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ObrazujKarte();
+                        gracz.Kwota += this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ZrobCos;
+                        Console.WriteLine("Zmieniono stan konta głownego");
+                        Console.WriteLine("{1} aktualnie posiadasz {0}", gracz.Kwota,gracz.Name);
+                    }
+                    Console.WriteLine("Kliknij Enter, by zakończyć swój ruch...");
+                    Console.ReadLine();
+                }
+                Console.WriteLine("\t\t\tKliknij Enter aby rozpocząć {0} rundę: \n", numerRundy + 1);
+                numerRundy++;
+                Console.ReadLine();
+                System.Threading.Thread.Sleep(2000);
+            }
+
+
+        }
+
+		IIwersja
+		 public void Gra()
+        {
+            int numerRundy = 1;
+            Instrukcja_gry();
+            /////////////////////////////////       TWORZENIE GRACZY      ///////////////////////////////////
+            int liczba_graczy = WprowadzLiczbeGraczy();
+            CzyscKonsole();
+            WprowadzGraczy(liczba_graczy);
+            this.UstawPlansze(liczba_graczy);//ustawia liczbę pol w zalezności od ilosci graczy
+            //////////////////////////            ROZGRYWKA WŁAŚCIWA                   //////////////////////////////////
+            while (true)
+            {
+                ///////////////////////         NAJPIERW SPRAWDZAMY CZY SĄ SPEŁNIONE WARUNKI DALSZEJ GRY       /////////
+                //gracza usuwamy poza foreachem
+                CzyJuzKoniecGry();
+                KoniecGry();
+                CzyscKonsole();
+                Console.WriteLine("_________________Runda nr.{0}_________", numerRundy);
+                InformacjaOPlanszy();
+                foreach (Gracz gracz in this.Gracze)
+                {
+                    gracz.InformacjaOSobie();
+                    Console.WriteLine("{0}, kliknij Enter by losować", gracz.Name);
+                    Console.ReadLine();
+                    gracz.ZmienAktualnaPozycje(gracz.Losuj());
+                    System.Threading.Thread.Sleep(2000);
+                    ////////////////////////////////////////gdy wykraczamy poza zakres planszy//////////////////////////
+                    gracz.RozpocznijNastepnaKolejke(this.Pola.Count());
+                    ////////////////////////////////////////// Jezeli wpadamy w pole typu P i mozna je kupic/////////////////////
+                    if ((this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Czy_zajete == false) && (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "P"))//WOLNA DZIAŁKA
+                    {
+                        Console.WriteLine("\nObecnie stoisz na tym polu :");
+                        if (gracz.Kwota >= this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Koszt)//jezeli gracz ma wiecej hajsu niż koszt działki
+                        {
+                            this.ZakupPola(gracz);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\tBrak środkow na kupno działki.Graj rozważnie");
+                            Console.WriteLine("\tRuch kolejnego gracza\n");
+                        }
+                    }
+                    else if ((this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Czy_zajete == true) && (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "P"))//DZIALKA ZAJETA
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t\t\tWjechales w zajętą dzialkę!");
+                        if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel == gracz.Name)//jezeli dzialka nasza to
+                        {
+                            Console.WriteLine("\t\t\tRozważ budowę domków");
+                            this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].InformacjaDlaWlascicielaODomkach();
+                            if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Iledomkow() < 5)//gdy jest mozliwosc kupna domku
+                            {
+                                Console.WriteLine("\t\t\tCzy chcesz kupić domek?");
+                                if (gracz.Decyzja() == true)//jezeli tak
+                                {
+                                    System.Threading.Thread.Sleep(2000);
+                                    //Console.WriteLine("\t\t\tZdecydowałeś się kupić domek!");
+                                    //sprawdzenie czy nas stac
+                                    if (gracz.Kwota >= this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].OplataZaDomek)// jezeli tak
+                                    {
+                                        Console.WriteLine("\t\t\tZdecydowaleś się na kupno domku!");
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].OplataZaDomek);//odejmowanie hajsu za domek
+                                        this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ZmienLiczbeDomkow();
+                                        Console.WriteLine("\t\t\tZmieniono liczbę domkow na {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\t\t\t\tNie stać cię na kupno domku");
+                                        Console.WriteLine("\t\t\t\tRuch kolejnego gracza");
+                                        Console.WriteLine("   ");
+                                    }
+                                }
+                                else//jezeli nie
+                                {
+                                    System.Threading.Thread.Sleep(2000);
+                                    Console.WriteLine("\t\t\tNie chcesz kupić domku");
+                                    Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                }
+                            }
+                            else
+                            {
+                                System.Threading.Thread.Sleep(1000);
+                                Console.WriteLine("\t\t\t\tTu już stoji hotel! Więcej domków nie jesteś w stanie kupić");
+                                Console.WriteLine("\t\t\t\tRuch kolejnego gracza\n");
+                            }
+                        }
+                        else
+                        {
+                            System.Threading.Thread.Sleep(2000);
+                            Console.WriteLine("\t\t\tTa dzialka ma już swojego innego wlasciciela");
+                            foreach (Gracz szukanygracz in this.Gracze)
+                            {
+                                if (szukanygracz.Name == this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel)
+                                {
+                                    if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow != 0)
+                                    {
+                                        Console.WriteLine("\t\t\t\nA jej wlascicielem jest {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel);
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        szukanygracz.ZmienKwote(-this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        Console.WriteLine("\t\t\tZaplaciłeś mu {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow - 1]);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\t\t\tA jej wlascicielem jest {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Wlasciciel);
+                                        gracz.ZmienKwote(this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        szukanygracz.ZmienKwote(-this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        Console.WriteLine("\t\t\tZaplaciłeś mu {0}", this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].KwotaZaWejscie[this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].IleDomkow]);
+                                        Console.WriteLine("\t\t\tRuch kolejnego gracza\n");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].Typ() == "S")
+                    {
+                        this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ObrazujKarte();
+                        gracz.Kwota += this.Pola[gracz.AktualnaPozycjaNaPlanszy - 1].ZrobCos;
+                        Console.WriteLine("Zmieniono stan konta głownego");
+                        Console.WriteLine("{1} aktualnie posiadasz {0}", gracz.Kwota,gracz.Name);
+                    }
+                    Console.WriteLine("Kliknij Enter, by zakończyć swój ruch...");
+                    Console.ReadLine();
+                }
+                Console.WriteLine("\t\t\tKliknij Enter aby rozpocząć {0} rundę: \n", numerRundy + 1);
+                numerRundy++;
+                Console.ReadLine();
+                System.Threading.Thread.Sleep(2000);
+            }
+
+
+        }
